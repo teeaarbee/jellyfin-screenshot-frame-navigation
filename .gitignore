@@ -1,6 +1,6 @@
-# screenshots produced by the helper
+# screenshots produced by the helper (but keep docs/ images)
 jellyfin-screenshots/
-*.png
+/*.png
 
 # python
 __pycache__/

@@ -3,8 +3,13 @@
 Add a **full-resolution screenshot button** and **frame-by-frame navigation**
 to the **Jellyfin web video player**.
 
+![Jellyfin web player with the screenshot and frame-step buttons](docs/player.png)
+
 While watching anything in Jellyfin's web player you get three extra buttons in
 the on-screen player controls:
+
+![Close-up of the injected controls: previous frame, camera, next frame](docs/controls.png)
+
 
 | Button | Action | Keyboard |
 | --- | --- | --- |
