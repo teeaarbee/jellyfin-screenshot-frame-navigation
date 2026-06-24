@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- macOS launchd agent: keeps server.py running and restarts it on login/crash.
+     Edit the paths and secrets, then install with:
+       cp examples/com.example.jellyfin-frame-grab.plist ~/Library/LaunchAgents/
+       launchctl load -w ~/Library/LaunchAgents/com.example.jellyfin-frame-grab.plist
+     Stop with:
+       launchctl unload -w ~/Library/LaunchAgents/com.example.jellyfin-frame-grab.plist -->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.example.jellyfin-frame-grab</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/ABSOLUTE/PATH/TO/jellyfin-screenshot-frame-navigation/server.py</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>JELLYFIN_API_KEY</key>
+        <string>YOUR_JELLYFIN_API_KEY</string>
+        <key>GRAB_TOKEN</key>
+        <string>YOUR_LONG_RANDOM_SHARED_TOKEN</string>
+        <key>FFMPEG</key>
+        <string>/Applications/Jellyfin.app/Contents/MacOS/ffmpeg</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/jellyfin-frame-grab.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/jellyfin-frame-grab.err</string>
+</dict>
+</plist>

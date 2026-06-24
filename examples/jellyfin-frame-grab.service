@@ -1,0 +1,26 @@
+# Linux systemd unit: keeps server.py running and restarts it on boot/crash.
+# Edit paths/secrets, then install with:
+#   sudo cp examples/jellyfin-frame-grab.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now jellyfin-frame-grab
+# Logs: journalctl -u jellyfin-frame-grab -f
+
+[Unit]
+Description=Jellyfin web-player full-resolution frame grab helper
+After=network.target jellyfin.service
+
+[Service]
+# run as the user that can read your media files
+User=jellyfin
+WorkingDirectory=/opt/jellyfin-screenshot-frame-navigation
+ExecStart=/usr/bin/python3 /opt/jellyfin-screenshot-frame-navigation/server.py
+Restart=on-failure
+
+Environment=JELLYFIN_API_KEY=YOUR_JELLYFIN_API_KEY
+Environment=GRAB_TOKEN=YOUR_LONG_RANDOM_SHARED_TOKEN
+Environment=JELLYFIN_URL=http://127.0.0.1:8096
+# Environment=FFMPEG=/usr/lib/jellyfin-ffmpeg/ffmpeg
+# Environment=OUTDIR=/var/lib/jellyfin-screenshots
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+# screenshots produced by the helper
+jellyfin-screenshots/
+*.png
+
+# python
+__pycache__/
+*.pyc
+
+# local env / secrets
+.env
+*.local
