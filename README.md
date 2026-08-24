@@ -22,6 +22,10 @@ The screenshot is a clean grab straight from the source file via ffmpeg — **no
 a downscaled canvas capture of the `<video>` element, so you get the original
 resolution regardless of your transcode/playback quality.
 
+**Also in this repo:** [quality + size badges on every card](#quality--size-badges-on-every-card)
+— see at a glance that one copy of a film is `4K · 22.8 GB` and the other is
+`720p · 3.0 GB`, without opening either.
+
 > Keywords: jellyfin screenshot, jellyfin frame by frame, jellyfin frame
 > navigation, jellyfin capture frame, jellyfin full resolution screenshot,
 > jellyfin web player snapshot, step frame.
@@ -131,6 +135,51 @@ playing something — the buttons appear in the player control bar.
   only ever serves frames for the currently-playing item id you pass it.
 - No secrets are stored in this repo. Your API key and token come from
   environment variables and the one line you edit in `grab-frame.js`.
+
+## Quality + size badges on every card
+
+`card-quality.js` is a second, **standalone** add-on — no helper service, no API
+key, no configuration. It stamps every poster card and list row in the web
+client with the file's resolution and size:
+
+![Two copies of the same film, each card showing a resolution and size badge](docs/card-quality.png)
+
+Hover a badge for the full detail — file path, exact dimensions, video codec and
+bitrate:
+
+```
+/media/movies/Some Film (2011)/Some Film (2011).mp4
+1888x1062  ·  HEVC  ·  15 Mbps
+```
+
+That is usually the fastest way to answer "I have this title twice — which one
+is the good copy, and where does it actually live?".
+
+### Install
+
+```sh
+./reinject-card-quality.sh
+```
+
+Same auto-detection and the same override as `reinject.sh`
+(`JELLYFIN_WEB=/usr/share/jellyfin/web ./reinject-card-quality.sh`), and the
+same caveat: **Jellyfin updates wipe the web folder**, so re-run it afterwards.
+Then hard-refresh the page.
+
+The two add-ons are independent — install either one, or both.
+
+### Notes
+
+- Sizes are decimal GB, so they match what your file manager reports.
+- Item data comes from the Jellyfin API in batches of 50, using the browser's
+  own logged-in session (`window.ApiClient`) — nothing is stored and no key is
+  embedded in the script.
+- Cards with no single file behind them (series, seasons, collections, people)
+  are skipped.
+- Turn it off in one browser without uninstalling:
+  `localStorage.jfCardQuality = "off"`, then refresh.
+- Browsers cache `index.html`, so after bumping `VERSION` do a hard refresh —
+  or load `/web/index.html?cb=2` once — or you'll keep running the old script.
 
 ## Platform notes
 
